@@ -16,6 +16,7 @@ file_xml = r'ExchangeRates.xml'
 tree = ET.ElementTree(file=file_xml)
 root = tree.getroot()
 root.tag, root.attrib
+
 #將資料轉為 DataFrame
 ex_rate = {}
 for child_of_root in root:
@@ -28,7 +29,7 @@ for child_of_root in root:
       else:
         ex_rate[gchild_of_root.tag].append(eval(gchild_of_root.text))  
 ex_rate_df = pd.DataFrame.from_dict(ex_rate)  
-  
+
 #將資料內容轉為同單位(USD)
 ex_rate_df['人民幣'] = ex_rate_df['人民幣']*0.14110
 ex_rate_df['新加坡元'] = ex_rate_df['新加坡元']*0.72
@@ -57,9 +58,10 @@ for x in countries:
   ss = pd.Series({'平均值':x.mean(),'最大值':x.max(),'最小值':x.min(),'變異數':x.var(),'標準差':x.std(),'偏度':x.skew(),'峰度':x.kurt()},name=x.name)
   er_an_df = er_an_df.append(ss)
 print(er_an_df)
- 
-#比較各國匯率走勢
-plt.figure(figsize=(8, 5)) #設定圖示大小
+
+#畫圖
+#設定圖示大小
+plt.figure(figsize=(12,8)) 
 plt.plot(year_month,ntd,color='green',label='NTD')
 plt.plot(year_month,cny,color='black',label='CNY')
 plt.plot(year_month,jpy,color='red',label='JPY')
@@ -69,12 +71,12 @@ plt.plot(year_month,gbp,color='cyan',label='GBP')
 plt.plot(year_month,sgd,color='chocolate',label='SGD')
 plt.plot(year_month,aud,color='grey',label='AUD')
 plt.title(r'r/e',loc='right')
-#plt.xlim(low,up)
-plt.ylim(0.75,1.75)
+#plt.xlim(2018,2020)
+#plt.ylim(0.75,1.75)
 plt.xlabel('year-month')
 plt.ylabel('USD')
-plt.xticks(rotation=40)
+plt.xticks(rotation=30)
 #plt.yticks(new_ticks)
 plt.legend()
 plt.grid()
-plt.show()    
+plt.show() 
