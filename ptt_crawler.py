@@ -1,7 +1,5 @@
 import requests
 from bs4 import BeautifulSoup
-import os
-import urllib
 
 topic=input("要看哪個版：")\
 #topic="joke"
@@ -54,9 +52,3 @@ for link in soup2.find_all('a'):
         print(link.get('href'))
 for q in range(len(quote)):
     print('q :{}'.format(quote[q].text))
-
-x=1
-for link in range(len(img_list)):
-	local = os.path.join('c:\py\%s.jpg' % x)
-	urllib.urlretrieve(link,local) #link是下載的網址 local是儲存圖片的檔案位址
-	x+=1
