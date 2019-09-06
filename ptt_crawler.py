@@ -1,5 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
+import os
+import urllib
 
 topic=input("要看哪個版：")\
 #topic="joke"
@@ -47,8 +49,19 @@ quote = soup2.select("span.f3")
 print(print_form.format(title,description))
 img_list=[]
 for link in soup2.find_all('a'):
-    if link.get('href').find(r'https://i') > -1:
+    if link.get('href').find(r'https://i.imgur') > -1:
         img_list.append(link.get('href'))
-        print(link.get('href'))
+    elif link.get('href').find(r'https://imgur') > -1:
+        img_list.append(link.get('href'))
 for q in range(len(quote)):
     print('q :{}'.format(quote[q].text))
+
+img_dir = 'image'
+if not os.path.exists(img_dir):
+    os.mkdir(img_dir)
+
+for u in range(len(img_list)):
+    file_name = img_list[u].split('/')[-1]
+    local = os.path.join(img_dir,file_name)
+    urllib.request.urlretrieve(img_list[u],local)
+    
